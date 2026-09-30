@@ -460,7 +460,7 @@ For instance, we could use indexing to get only cars in the mtcars
 dataset with 4 gears.
 
 ```{r}
-
+mtcars[mtcars$cyl==6,]
 ```
 
 In this case, you'll notice that I put a comma after the logical
@@ -475,15 +475,34 @@ If we wanted to get the same subset of data as above, we could do the
 following:`subset(dataframe, condition)`
 
 ```{r}
+subset(mtcars, mtcars$cyl==6) #base R
 
+install.packages("tidyverse")
+library(tidyverse)
+
+mtcars |>  filter(cyl==6) # |>  is a pipe, type with command+shift+M
 ```
 
 ## Practice:
 1. create a subset of data from mtcars that contains all cars with less than 25 mpg. 
+```{r}
+subset(mtcars, mtcars$mpg<25)
+mtcars |> filter(mpg<25)
+mtcars[mtcars$mpg <25,]
+```
 
 2. create a subset of data with all cars that have an automatic transmission
+```{r}
+subset(mtcars, mtcars$am==0)
+```
+
 
 3. create a subset of data with all cars that have at least  100 horsepower and 4 gears. 
+```{r}
+subset(mtcars, mtcars$hp>=100 & mtcars$gear==4)
+# or could write as...
+mtcars |> filter(hp>=100 & gear==4) 
+```
 
 
 **A Note on Pipes (more advanced)** If not, we're going to talk about
@@ -512,25 +531,46 @@ We can use filter and select to subset data with pipes.
 We can use `filter()` to pick a subset of rows:
 
 ```{r}
-
+fourthGear<- mtcars |> filter(gear==4)
+fourthGear
 ```
 
 We can use `select()` to pick a subset of columns:
 
 ```{r}
-
+fourthGear |> select(mpg, hp, am)
+```
+```{r}
+fourthGear2<- mtcars |> filter(gear==4) |> select(mpg)
+fourthGear2
+# nice for super large dataset 
 ```
 
 
 #### Learning Outcome 4 Practice:
 
 1.  Load the ChickWeight dataset.
+```{r}
+ChickWeight
+view(ChickWeight)
+```
 
 2.  Create a subset of data that contains information for Chick 8
+```{r}
+chick8<-ChickWeight |> filter(Chick==8)
+```
 
 3.  Create a subset of data for Diet 2 only.
+```{r}
+diet2<- subset(ChickWeight, Diet==2)
+```
 
 4.  Create a subset of data for all chicks weighing less than 100 gm.
+```{r}
+skinnyChick<- ChickWeight |> filter(weight<100)
+skinnyChick
+```
+
 
 ### Learning Outcome 5: Describe your data effectively
 
@@ -544,7 +584,11 @@ of our data. they both use a similar format
 install ggplot if you haven't already!)
 
 ```{r}
-
+head(ChickWeight)
+head(ChickWeight,1)
+```
+```{r}
+tail(ChickWeight)
 ```
 
 hypothetically, we have a dataset with 1000 rows. can we just get rows 50-100? 
@@ -558,7 +602,7 @@ appropriately/is what we expect.
 `summary()`.
 
 ```{r}
-
+summary(ChickWeight)
 ```
 
 What do you notice about the summaries?
@@ -576,42 +620,68 @@ specific columns
 If we need the # of observations, we can use `length()` or `nrow()` to
 get this information.
 
-```{r}
-
+```{r} 
+length(ChickWeight$Diet) # only use on vectors
+nrow(ChickWeight)
+length(ChickWeight)
 ```
 
 We can also take the average by using the function `mean()`.
 
 ```{r}
-
+mean(ChickWeight$weight)
 ```
 
 We can get the standard deviation using `sd()`.
 
 ```{r}
-
+sd(ChickWeight$weight)
 ```
 
 `var()`gives us the variance
 
 ```{r}
-
+var(ChickWeight$weight)
 ```
 
 `range()` gives us the range
 
 ```{r}
-
+range(ChickWeight$weight)
+rangeChick<- range(ChickWeight$weight)
+rangeChick[2]- rangeChick[1]
 ```
 
 ###Learning Outcome 5 Practice
 
 1.  Summarize the ChickWeight dataset
+```{r}
+summary(ChickWeight)
+```
 
 2.  Find the mean of the weight column
+```{r}
+mean(ChickWeight$weight)
+```
 
 3.  Summarize the data for just the 1st chick
+```{r}
+Chick1<- subset(ChickWeight, Chick==1)
+Chick1
+summary(Chick1)
+```
 
 4.  What is the variance of the 1st chick's weight?
+```{r}
+var(Chick1$weight)
+```
 
 5.  What is the range in weight for each chick posted in the dataset?
+```{r}
+rangeChick1<- range(Chick1$weight)
+rangeChick1[2]- rangeChick1[1]
+```
+```{r}
+
+```
+
