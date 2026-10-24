@@ -12,7 +12,6 @@ library(tidyverse)
 1.Open the sleep dataset in R 
 ```{r}
 data(sleep)
-View(sleep)
 ```
 
 2. Is it long or wide format? How do you know? 
