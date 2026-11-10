@@ -1,0 +1,63 @@
+---
+title: "graphing part 2"
+author: "Amanda Mae Woodward"
+date: "2026-11-03"
+output: html_document
+---
+
+1. Open the starwars dataset (located in tidyverse)
+```{r}
+library(tidyverse)
+data(starwars)
+```
+
+2. Create a scatter plot of character's height and mass. 
+```{r}
+ggplot(starwars, aes(height, mass))+ geom_point()
+```
+
+2a. Change the color and shape of the points in your scatter plot. 
+```{r}
+ggplot(starwars, aes(height, mass))+ geom_point(color="darkslateblue", shape = 5)
+```
+
+3. Add Homeworld as a third variable to your scatterplot. 
+```{r}
+ggplot(starwars, aes(height, mass, color=homeworld))+ geom_point()
+```
+
+3a. What do you notice about the graph? (e.g. describe what you see)
+The legend for homeworlds contains many levels, which makes the graph cluttered and difficult to navigate. The colors are also very similar to one another, making the plot points hard to differentiate. 
+
+4. Make a boxplot of height. 
+```{r}
+ggplot(starwars, aes(height))+ geom_boxplot()
+```
+
+5. Make a boxplot of height for each species present in the data. 
+```{r}
+ggplot(starwars, aes(x= height, y= species))+ geom_boxplot()
+```
+
+5a. change the appearance of your graph in at least 3 ways. 
+```{r}
+ggplot(starwars, aes(x= height, y= species))+ geom_boxplot(fill = "violet", color= "purple4")+ labs(x= "Height (cm)", y= "Species", title = "Starwars Character Height by Species")+ theme_classic()+ theme(axis.text.y = element_text(angle = 20) )
+```
+
+6. Using any variables in the starwars dataset, create a graph that uses a color palette from viridis.
+```{r}
+library(viridis)
+ggplot(starwars |> filter(!is.na(sex)), aes(height, eye_color, color= sex))+ geom_point(size= 2,)+ scale_color_viridis(option= "viridis", discrete = TRUE)+ labs(x = "Height", y = "Eye Color", color = "Sex", title = "Character Height and Eye Color by Sex")
+```
+
+7.Using any variables in the starwars dataset, create a graph that uses a color palette from RColorBrewer.
+```{r}
+library(RColorBrewer)
+ggplot(starwars |> filter(!is.na(hair_color)), aes(x =hair_color, fill = hair_color))+ geom_bar()+ scale_fill_brewer(palette = "Set3")+ theme(axis.text.x = element_text(angle = 45, hjust = 1))+ labs(x= "Hair Color", y= "Number of Characters", fill= "Hair Color", title = "Frequency of Starwars Character Hair Color")
+```
+
+8. Using any variables in the starwars dataset, create a graph using facet_wrap
+```{r}
+ggplot(starwars, aes(height, mass, color= gender))+ geom_point()+ facet_wrap(~gender)+ labs(x= "Height", y= "Mass", color = "Presenting Gender", title = "Starwars Mass & Height by Presenting Gender")
+```
+
